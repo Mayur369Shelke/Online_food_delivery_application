@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,6 +38,12 @@ public class Restaurant {
 	@NotEmpty
 	private String restaurantPassword;
 	
+	@Column(name = "restaurant_email")
+	@NotNull
+	@NotBlank
+	@NotEmpty
+	private String restaurantEmail;
+	
 	@Column(name = "restaurant_address")
 	private String restaurantAddress;
 	
@@ -64,8 +71,7 @@ public class Restaurant {
 	@Column(name = "restaurant_manager_email_id")
 	private String restaurantManagerEmail;
 	
-	@OneToMany(cascade = CascadeType.ALL )
-	@JoinColumn(name = "item_Id")
+	@OneToMany(mappedBy = "restaurant" ,cascade = CascadeType.ALL , fetch = FetchType.LAZY)
 	private List<Items> items;
 
 	public Restaurant() {
@@ -73,12 +79,14 @@ public class Restaurant {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Restaurant(String restaurantName, String restaurantPassword, String restaurantAddress, String restaurantCity,
-			String restaurantState, String restaurantcountry, int restaurantPincode, String restaurantManagerFirstName,
-			String restaurantManagerLastName, String restaurantManagerNumber, String restaurantManagerEmail) {
+	public Restaurant(String restaurantName, String restaurantPassword, String restaurantEmail,
+			String restaurantAddress, String restaurantCity, String restaurantState, String restaurantcountry,
+			int restaurantPincode, String restaurantManagerFirstName, String restaurantManagerLastName,
+			String restaurantManagerNumber, String restaurantManagerEmail) {
 		super();
 		this.restaurantName = restaurantName;
 		this.restaurantPassword = restaurantPassword;
+		this.restaurantEmail = restaurantEmail;
 		this.restaurantAddress = restaurantAddress;
 		this.restaurantCity = restaurantCity;
 		this.restaurantState = restaurantState;
@@ -90,13 +98,14 @@ public class Restaurant {
 		this.restaurantManagerEmail = restaurantManagerEmail;
 	}
 
-	public Restaurant(String restaurantName, String restaurantPassword, String restaurantAddress, String restaurantCity,
-			String restaurantState, String restaurantcountry, int restaurantPincode, String restaurantManagerFirstName,
-			String restaurantManagerLastName, String restaurantManagerNumber, String restaurantManagerEmail,
-			List<Items> items) {
+	public Restaurant(String restaurantName, String restaurantPassword, String restaurantEmail,
+			String restaurantAddress, String restaurantCity, String restaurantState, String restaurantcountry,
+			int restaurantPincode, String restaurantManagerFirstName, String restaurantManagerLastName,
+			String restaurantManagerNumber, String restaurantManagerEmail, List<Items> items) {
 		super();
 		this.restaurantName = restaurantName;
 		this.restaurantPassword = restaurantPassword;
+		this.restaurantEmail = restaurantEmail;
 		this.restaurantAddress = restaurantAddress;
 		this.restaurantCity = restaurantCity;
 		this.restaurantState = restaurantState;
@@ -131,6 +140,14 @@ public class Restaurant {
 
 	public void setRestaurantPassword(String restaurantPassword) {
 		this.restaurantPassword = restaurantPassword;
+	}
+
+	public String getRestaurantEmail() {
+		return restaurantEmail;
+	}
+
+	public void setRestaurantEmail(String restaurantEmail) {
+		this.restaurantEmail = restaurantEmail;
 	}
 
 	public String getRestaurantAddress() {
@@ -212,7 +229,8 @@ public class Restaurant {
 	public void setItems(List<Items> items) {
 		this.items = items;
 	}
-	
+
+
 	
 
 

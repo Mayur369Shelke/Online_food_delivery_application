@@ -3,6 +3,7 @@ package com.mouritech.onlinefoodorderapplication.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,31 +26,9 @@ public class Items {
 		
 		private int itemQuantity;
 		
-		@ManyToOne(cascade = CascadeType.ALL )
+		@ManyToOne(fetch = FetchType.LAZY)
 		@JoinColumn(name = "restaurant_id")
 		private Restaurant restaurant;
-
-		public Items() {
-			super();
-			// TODO Auto-generated constructor stub
-		}
-
-		public Items(String itemName, int itemPrice, String itemDescription, int itemQuantity) {
-			super();
-			this.itemName = itemName;
-			this.itemPrice = itemPrice;
-			this.itemDescription = itemDescription;
-			this.itemQuantity = itemQuantity;
-		}
-
-		public Items(String itemName, int itemPrice, String itemDescription, int itemQuantity, Restaurant restaurant) {
-			super();
-			this.itemName = itemName;
-			this.itemPrice = itemPrice;
-			this.itemDescription = itemDescription;
-			this.itemQuantity = itemQuantity;
-			this.restaurant = restaurant;
-		}
 
 		public long getItemId() {
 			return itemId;
@@ -91,14 +70,21 @@ public class Items {
 			this.itemQuantity = itemQuantity;
 		}
 
-		public Restaurant getRestaurant() {
-			return restaurant;
+		public Items() {
+			super();
+			// TODO Auto-generated constructor stub
 		}
 
-		public void setRestaurant(Restaurant restaurant) {
-			this.restaurant = restaurant;
+		public Items(String itemName, int itemPrice, String itemDescription, int itemQuantity) {
+			super();
+			this.itemName = itemName;
+			this.itemPrice = itemPrice;
+			this.itemDescription = itemDescription;
+			this.itemQuantity = itemQuantity;
 		}
 		
 		
-	}
+		
+
+			}
 

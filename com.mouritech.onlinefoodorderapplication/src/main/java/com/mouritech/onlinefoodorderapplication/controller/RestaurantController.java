@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mouritech.onlinefoodorderapplication.dto.ItemDto;
+import com.mouritech.onlinefoodorderapplication.dto.RestaurantDto;
+import com.mouritech.onlinefoodorderapplication.dto.RestaurantItemsDto;
 import com.mouritech.onlinefoodorderapplication.entity.Restaurant;
 import com.mouritech.onlinefoodorderapplication.service.RestaurantService;
 
@@ -30,11 +33,11 @@ public class RestaurantController {
 		
 	}
 	
-	@GetMapping("/getrestaurantbyidandpassword/{restaurantName}/{restaurantPassword}")
-	public ResponseEntity<?> findRestaurantByNameAndPassword(@PathVariable(value = "restaurantName") String restaurantName,
+	@GetMapping("/getrestaurantbyemaiandpassword/{restaurantEmail}/{restaurantPassword}")
+	public ResponseEntity<?> findRestaurantByEmailAndPassword(@PathVariable(value = "restaurantEmail") String restaurantEmail,
 			@PathVariable(value ="restaurantPassword") String restaurantPassword){
 		
-		boolean result = restaurantService.findRestaurantByNameAndPassword(restaurantName,restaurantPassword);
+		boolean result = restaurantService.findRestaurantByEmailAndPassword(restaurantEmail,restaurantPassword);
 		if(result==true) {
 			return ResponseEntity.ok().body("login successful");
 		}
@@ -52,6 +55,32 @@ public class RestaurantController {
 		return result;
 	}
 	
+@GetMapping("/getrestaurantbyemailandpasswordcheck")
+public ResponseEntity<?>checkRestauramtEmailAndPassword(@RequestBody RestaurantDto restaurantDto){
+	if(restaurantDto==null) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("please Enter Email and password");
+	}
+	else {
+		
+		ResponseEntity<?> ckeckLogin = restaurantService.checkRestauramtEmailAndPassword(restaurantDto);
+		return ckeckLogin;
+		
+	}
+	
+}
 
+@PostMapping("/insertitemsByrestaurantemaiandpassword")
+public ResponseEntity<?>insertItems(@RequestBody RestaurantItemsDto restaurantItemsDto){
+	
+	if(restaurantItemsDto==null) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("please Enter Email and password, items");
+	}
+	else {
+		
+		ResponseEntity<?> itemsInsert = restaurantService.insertItems(restaurantItemsDto);
+		return itemsInsert;
+		
+	}
 
+}
 }
